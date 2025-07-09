@@ -18,7 +18,8 @@ function extractTimeFromDate(dateString: string): string {
 }
 
 async function getReservationByUserId(userId: string) {
-  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}?filterByFormula=({userId_}='${userId}')&maxRecords=1`;
+  const formula = encodeURIComponent(`{userId_}='${userId}'`);
+  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}?filterByFormula=${formula}&maxRecords=1`;
 
   const res = await fetch(url, {
     headers: {
