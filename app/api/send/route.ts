@@ -1,3 +1,29 @@
+import { NextRequest, NextResponse } from "next/server";
+
+const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY!;
+const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID!;
+const AIRTABLE_TABLE_ID = process.env.AIRTABLE_TABLE_ID!;
+const LINE_CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN!;
+
+// 你之前寫的 fetchWithTimeout 和其他函數...
+
+async function getReservationByUserId(userId: string) {
+  const formula = encodeURIComponent(`{userId_}='${userId}'`);
+  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}?filterByFormula=${formula}&maxRecords=1`;
+
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` },
+  });
+
+  if (!res.ok) throw new Error(`Airtable API error: ${res.status}`);
+
+  const data = await res.json();
+  if (!data.records || data.records.length === 0) return null;
+  return data.records[0];
+}
+
+// 其餘函數和 POST/GET handler 照舊
+
 export const runtime = "nodejs"; // 或直接移除 runtime 宣告
 
 async function fetchWithTimeout(resource, options = {}, timeout = 10000) {
