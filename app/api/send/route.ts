@@ -76,7 +76,7 @@ async function handleSendMessage(userId: string, date: string) {
   const accessToken = LINE_TOKENS[lineAccount] || LINE_TOKENS["ltf8289j"]; // 預設主帳號
 
   const time = extractTimeFromDate(date);
-  const message = `嗨嗨~🔉預約提醒通知\n我們明天 ${time} 見唷(moon big smile)(moon big smile)`;
+  const message = `:wave:嗨嗨~🔉預約提醒通知\n我們明天 ${time} 見唷:blush::blush:`;
 
   const lineRes = await sendLineMessage(userId, message, accessToken);
   if (!lineRes.ok) {
